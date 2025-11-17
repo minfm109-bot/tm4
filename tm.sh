@@ -14,20 +14,6 @@ sudo fallocate -l 4G /swap/swapfile 2>/dev/null || sudo dd if=/dev/zero of=/swap
 sudo chmod 600 /swap/swapfile; sudo mkswap /swap/swapfile || true; sudo swapon /swap/swapfile || true
 swapon --show || true; free -h || true
 
-echo "🔧 Установка Docker..."
-sudo apt update -y || true
-sudo apt install -y docker.io || true
-
-echo "🚀 Запуск демона Docker..."
-sudo dockerd >/dev/null 2>&1 &
-sleep 10
-
-echo "📦 Запуск контейнера Arch Linux и установка зависимостей..."
-docker run --network=host -it archlinux bash -c "
-  set -e
-  pacman -Syu --noconfirm || true
-  pacman -S --noconfirm wget curl gmp boost nano base-devel gcc glibc || true
-
   echo '⬇️ Загрузка SRBMiner-Multi...'
   wget https://github.com/doktor83/SRBMiner-Multi/releases/download/3.0.2/SRBMiner-Multi-3-0-2-Linux.tar.gz || true
 
